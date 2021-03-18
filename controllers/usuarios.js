@@ -1,5 +1,5 @@
 const { Response }  = require('express')
-
+const Usuario = require('../models/usuario')
 const usuariosGet = (req, res = Response) => {
     const { name, id, age, pageIndex = 0, pageSize = 10} = req.query;
 
@@ -12,11 +12,13 @@ const usuariosGet = (req, res = Response) => {
         pageSize
     })
 }
-const usuariosPost = (req, res = Response) => {
+const usuariosPost = async (req, res = Response) => {
     const body = req.body
+    const usuario = new Usuario(body);
+    await usuario.save();
     res.json({
         msg: 'hola desde el Post',
-        body
+        usuario
     })
 }
 const usuariosPut = (req, res = Response) => {
